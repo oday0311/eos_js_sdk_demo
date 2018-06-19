@@ -1,0 +1,47 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="eos.js"></script>
+  <script>
+      
+      function test(){
+                 var res = confirm("请选择");
+                  if(res == true){
+                        //确认
+                   }else{
+                       //取消
+                    }
+    }
+      
+      
+    function eos(){
+
+        // Private key or keys (array) provided statically or by way of a function.
+        // For multiple keys, the get_required_keys API is used (more on that below).
+        var key = '5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3'
+          eos = Eos({
+      
+              httpEndpoint: 'http://47.91.247.187:8087',
+              chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
+              keyProvider: key
+          })
+        var json = eos.getBlock(1)
+        console.log("get block :" + json.toString());
+        console.log(eos)
+        eos.getCurrencyBalance('eosio.token', 'eosio').then(x => console.log(x))
+        eos.getCurrencyStats()
+
+    }
+  </script>
+</head>
+<body>
+  See console object: Eos
+    
+    <div>
+        <button class="alertable-ok"  onclick="eos()" type="button">OK</button>
+    
+    </div>
+    
+    
+</body>
+</html>
