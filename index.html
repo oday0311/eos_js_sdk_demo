@@ -13,15 +13,53 @@
                        //取消
                     }
     }
-      var key = '5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3';
+      var key = '5Yw72aCSzLHYVvJBvqa8UJRdqYNkbq2VE6kjQyYSj5e5bPLymJ';
       var eos;
+
       eos = Eos({
 
           httpEndpoint: 'http://47.91.247.187:8087',
           chainId: 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f',
-          keyProvider: key
+          keyProvider: privatekeyprovider
+      });
+
+
+      function eosTransfer() {
+          eos.transfer({from:'alex',to:'huang',quantity:'5 EOS',memo:'hello'}).then(console.log).catch(e=>{console.error(e)})
+      }
+
+      function getAuthArray(transaction) {
+          var auths = []
+          var actions = transaction.transaction.actions;
+          actions.forEach(action => {
+              action.authorization.forEach(authorization => {
+              var auth = authorization.actor + '@' + authorization.permission;
+          if (auths.indexOf(auth) < 0) {
+              auths.push(auth);
+          }
       })
-    function eosinit(){
+      })
+          return auths;
+      }
+
+      function getPrivateKey(auth) {
+
+
+      }
+
+      function privatekeyprovider(transaction) {
+          console.log(JSON.stringify(transaction, null, 2));
+          //var auth_array = getAuthArray(transaction);
+
+          var auth_index = 0;
+          var result = ['EOS5Yw72aCSzLHYVvJBvqa8UJRdqYNkbq2VE6kjQyYSj5e5bPLymJ'];
+          function getKey(){
+
+                  return result;
+          }
+          return getKey();
+      }
+      function eosinit(){
 
         // Private key or keys (array) provided statically or by way of a function.
         // For multiple keys, the get_required_keys API is used (more on that below).
@@ -48,9 +86,6 @@
           eos.getCurrencyBalance({code:'eosio.token',account:'alex',symbol:'EPRA'}).then(console.log);
       }
 
-      function eosTransfer() {
-          eos.transfer({from:'alex',to:'huang',quantity:'5 EOS',memo:'hello'}).then(console.log).catch(e=>{console.error(e)})
-      }
 
 
       function eosGetTable()
@@ -67,6 +102,7 @@
           }).then( console.log)
                   .catch( console.error);
       }
+
   </script>
 </head>
 <body>
